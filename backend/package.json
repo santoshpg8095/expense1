@@ -5,10 +5,7 @@
   "main": "backend/server.js",
   "scripts": {
     "start": "node backend/server.js",
-    "server": "nodemon backend/server.js",
-    "client": "npm start --prefix frontend",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "build": "npm install --prefix frontend && npm run build --prefix frontend"
+    "dev": "nodemon backend/server.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -20,7 +17,6 @@
     "nodemailer": "^6.9.1"
   },
   "devDependencies": {
-    "concurrently": "^7.6.0",
     "nodemon": "^2.0.21"
   },
   "keywords": [
@@ -29,7 +25,6 @@
     "mern",
     "mongodb",
     "express",
-    "react",
     "node"
   ],
   "author": "Your Name",
