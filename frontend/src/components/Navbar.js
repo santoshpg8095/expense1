@@ -6,6 +6,7 @@ import './Navbar.css';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const { user, logout, isAuthenticated } = useAuth();
   const { darkMode, toggleDarkMode } = useTheme();
   const navigate = useNavigate();
@@ -13,17 +14,23 @@ const Navbar = () => {
   const handleLogout = () => {
     logout();
     navigate('/');
+    setIsOpen(false);
+    setIsUserMenuOpen(false);
   };
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
+  const toggleUserMenu = () => {
+    setIsUserMenuOpen(!isUserMenuOpen);
+  };
+
   return (
     <nav className="navbar">
       <div className="navbar-container">
         <div className="navbar-content">
-          <Link to="/" className="logo">
+          <Link to="/" className="logo" onClick={() => setIsOpen(false)}>
             <div className="logo-icon">
               <span className="rupee-symbol">₹</span>
             </div>
@@ -60,13 +67,13 @@ const Navbar = () => {
                 </Link>
                 
                 <div className="user-menu">
-                  <button className="user-menu-button">
+                  <button className="user-menu-button" onClick={toggleUserMenu}>
                     <span>{user?.name}</span>
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                     </svg>
                   </button>
-                  <div className="user-dropdown">
+                  <div className={`user-dropdown ${isUserMenuOpen ? 'open' : ''}`}>
                     <button
                       onClick={handleLogout}
                       className="dropdown-item"
@@ -163,12 +170,14 @@ const Navbar = () => {
               >
                 Settings
               </Link>
+              <div className="mobile-user-info">
+                <span>Logged in as: {user?.name}</span>
+              </div>
               <button
                 onClick={() => {
                   handleLogout();
-                  setIsOpen(false);
                 }}
-                className="mobile-menu-link"
+                className="mobile-menu-link logout-button"
               >
                 Logout
               </button>
@@ -197,7 +206,7 @@ const Navbar = () => {
             <span className="mobile-menu-toggle-label">Dark Mode</span>
             <button
               onClick={toggleDarkMode}
-              className="theme-toggle"
+              className="theme-toggle mobile"
               aria-label="Toggle dark mode"
             >
               {darkMode ? (
